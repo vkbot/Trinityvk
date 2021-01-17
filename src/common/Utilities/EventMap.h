@@ -205,13 +205,7 @@ public:
     * @param group Group to cancel.
     */
     void CancelEventGroup(uint32 group);
-    
-    /**
-    * @name GetNextEventTime
-    * @brief Returns closest occurrence of specified event.
-    * @param eventId Wanted event id.
-    * @return Time of found event.
-    */
+
     /**
     * @name IsInPhase
     * @brief Returns whether event map is in specified phase or not.

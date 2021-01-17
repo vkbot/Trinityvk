@@ -310,7 +310,7 @@ public:
                 achievementCredit = false;
         }
 
-        void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+        void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
         {
             if (spellInfo->Id == SPELL_BLACK_KNIGHT_RES)
             {
