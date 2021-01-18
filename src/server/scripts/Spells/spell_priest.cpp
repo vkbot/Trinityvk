@@ -810,7 +810,7 @@ class spell_pri_lightwell_renew : public SpellScriptLoader
                 _remainingAmount = GetTarget()->CountPctFromMaxHealth(30);
             }
 
-            void CheckDropCharge(ProcEventInfo& eventInfo)
+            void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 DamageInfo* damageInfo = eventInfo.GetDamageInfo();
                 if (!damageInfo)
@@ -818,19 +818,20 @@ class spell_pri_lightwell_renew : public SpellScriptLoader
 
                 uint32 damage = damageInfo->GetDamage();
                 if (_remainingAmount <= damage)
+                {
+                    DropCharge(AURA_REMOVE_BY_ENEMY_SPELL);
                     return;
+                }
 
                 _remainingAmount -= damage;
-                // prevent drop charge
-                PreventDefaultAction();
             }
 
             void Register() override
             {
-                DoPrepareProc += AuraProcFn(spell_pri_lightwell_renew_AuraScript::CheckDropCharge);
                 DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_pri_lightwell_renew_AuraScript::CalculateAmount, EFFECT_0, SPELL_AURA_PERIODIC_HEAL);
 
                 AfterEffectApply += AuraEffectApplyFn(spell_pri_lightwell_renew_AuraScript::InitializeAmount, EFFECT_0, SPELL_AURA_PERIODIC_HEAL, AURA_EFFECT_HANDLE_REAL_OR_REAPPLY_MASK);
+                OnEffectProc += AuraEffectProcFn(spell_pri_lightwell_renew_AuraScript::HandleProc, EFFECT_0, SPELL_AURA_PERIODIC_HEAL);
             }
 
             uint32 _remainingAmount = 0;
