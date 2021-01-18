@@ -3,6 +3,7 @@ dist: bionic
 language: cpp
 compiler:
   - clang
+  - gcc
 
 git:
   depth: 1
